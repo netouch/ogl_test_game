@@ -2,11 +2,8 @@ package test.com;
 
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
-import android.os.Bundle;
 import android.view.MotionEvent;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.View;
+
 
 public class GameView extends GLSurfaceView {
 	private OpenGLRenderer gameOpenGlRenderer=null;

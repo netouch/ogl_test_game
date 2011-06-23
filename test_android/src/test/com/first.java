@@ -1,11 +1,9 @@
 package test.com;
 
 import android.app.Activity;
-import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.View;
 
 public class first extends Activity {
     /** Called when the activity is first created. */
