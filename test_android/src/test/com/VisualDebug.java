@@ -1,4 +1,4 @@
-package test.android.com;
+package test.com;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
