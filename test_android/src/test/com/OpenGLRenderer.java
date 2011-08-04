@@ -13,9 +13,12 @@ public class OpenGLRenderer implements Renderer {
 	public Plane pl=null;
 	float rotate=0;
 	
+	VisualDebug debug;
+	
 	public OpenGLRenderer() {
 		// Initialize our square. 
 	pl=new Plane(2,2,5,5);
+	debug = new VisualDebug();
 	}
 	/*
 	 * (non-Javadoc)
@@ -58,6 +61,7 @@ public class OpenGLRenderer implements Renderer {
 		//pl.ry=rotate/2+0.5f;
 		//pl.rz=rotate/5;
 		pl.draw(gl);
+		debug.draw(gl);
 		//rotate += 0.5f;
 	}
 

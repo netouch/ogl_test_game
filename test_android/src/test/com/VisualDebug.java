@@ -35,8 +35,8 @@ public class VisualDebug {
 	
 	public void draw(GL10 gl){
 		gl.glFrontFace(GL10.GL_CCW);
-		gl.glEnable(GL10.GL_CULL_FACE);
-		gl.glCullFace(GL10.GL_BACK);
+		//gl.glEnable(GL10.GL_CULL_FACE);
+		//gl.glCullFace(GL10.GL_BACK);
 		
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);

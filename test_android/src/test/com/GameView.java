@@ -1,12 +1,15 @@
 package test.com;
 
 import android.app.Activity;
+import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
+import android.os.Vibrator;
 
 
 public class GameView extends GLSurfaceView {
 	private OpenGLRenderer gameOpenGlRenderer=null;
+	public Vibrator vibrator;
 	
 	public GameView(Activity act){
 		super(act);
@@ -31,9 +34,11 @@ public class GameView extends GLSurfaceView {
 			//android.util.Log.d("OGL",String.format("asdasdds X:%d Y:%d", (int)event.getX(), (int)event.getY()) );
 			printSamples(event);
 			break;
-		//case MotionEvent.ACTION_DOWN:
-		//	gameOpenGlRenderer.pl.rx = event.getX()/10;
-		//	break; 
+		case MotionEvent.ACTION_DOWN:
+			//gameOpenGlRenderer.pl.rx = event.getX()/10;
+			//vibrator.vibrate(50);
+			
+			break; 
 		}
 		return true;
 	}
