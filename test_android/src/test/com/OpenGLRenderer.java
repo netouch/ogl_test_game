@@ -10,6 +10,7 @@ public class OpenGLRenderer implements Renderer {
 	public int screenWidth=0;
 	public int screenHeight=0;
 	
+	public Camera camera;
 	public Plane pl=null;
 	float rotate=0;
 	
@@ -19,6 +20,7 @@ public class OpenGLRenderer implements Renderer {
 		// Initialize our square. 
 	pl=new Plane(2,2,5,5);
 	debug = new VisualDebug();
+	camera = new Camera();
 	}
 	/*
 	 * (non-Javadoc)
@@ -55,7 +57,12 @@ public class OpenGLRenderer implements Renderer {
 		// Replace the current matrix with the identity matrix
 		gl.glLoadIdentity();
 		// Translates 4 units into the screen.
-		gl.glTranslatef(0, 0, -4); 
+		//gl.glTranslatef(0, 0, -4); 
+		//camera.moveTo(0.0f , 0.0f , -4.0f);
+		camera.moveOn(0, 0, -0.01f);
+		camera.rotateOn(0, 0.5f, 0);
+		camera.moveCamera(gl);
+		
 		// Draw our square.
 		//pl.rx=rotate;
 		//pl.ry=rotate/2+0.5f;
