@@ -56,6 +56,7 @@ public class OpenGLRenderer implements Renderer {
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 		// Replace the current matrix with the identity matrix
 		gl.glLoadIdentity();
+		debug.draw(gl);
 		// Translates 4 units into the screen.
 		//gl.glTranslatef(0, 0, -4); 
 		//camera.moveTo(0.0f , 0.0f , -4.0f);
@@ -64,11 +65,8 @@ public class OpenGLRenderer implements Renderer {
 		camera.moveCamera(gl);
 		
 		// Draw our square.
-		//pl.rx=rotate;
-		//pl.ry=rotate/2+0.5f;
-		//pl.rz=rotate/5;
 		pl.draw(gl);
-		debug.draw(gl);
+		
 		//rotate += 0.5f;
 	}
 
