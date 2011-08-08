@@ -47,6 +47,7 @@ public class Mesh {
 		            gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorBuffer);
 		        }
 		        
+		    gl.glPushMatrix();
 		    gl.glTranslatef(x, y, z);
 		    gl.glRotatef(rx, 1, 0, 0);
 		    gl.glRotatef(ry, 0, 1, 0);
@@ -54,6 +55,8 @@ public class Mesh {
 		    
 			gl.glDrawElements(GL10.GL_TRIANGLES, numOfIndices,
 				GL10.GL_UNSIGNED_SHORT, indicesBuffer);
+			
+			gl.glPopMatrix();
 			// Disable the vertices buffer.
 			gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 			// Disable face culling.
