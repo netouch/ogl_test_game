@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 import android.os.Vibrator;
+import android.util.Log;
 
 public class first extends Activity {
     /** Called when the activity is first created. */
@@ -20,6 +21,9 @@ public class first extends Activity {
         //Set Vibrator
    		android.os.Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
    		view.vibrator=v;
+   		//now lets get W H
+   		Log.d("TEST_TEST", String.format("Activity onCreate W=%d H=%d", getWindowManager().getDefaultDisplay().getWidth(), getWindowManager().getDefaultDisplay().getHeight()));
+   		//TODO: push devices screen W and H to OGLRenderer
    		//view.setRenderer(new OpenGLRenderer());
    		setContentView(view);
    		

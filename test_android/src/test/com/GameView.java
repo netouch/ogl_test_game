@@ -3,6 +3,7 @@ package test.com;
 import android.app.Activity;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.os.Vibrator;
 
@@ -19,6 +20,8 @@ public class GameView extends GLSurfaceView {
 		
 		controller = new Controller();
 		gameOpenGlRenderer.setController(controller);
+		//Log.d("TEST_TEST", String.format("W=%d H=%d", this.getWidth(), this.getHeight()));
+		
 	}
 	
 	@Override
