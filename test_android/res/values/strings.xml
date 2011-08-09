@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, first!</string>
+    <string name="app_name">tst_scoreiq</string>
+    <string name="menu_title">Крестики и Нолики</string>
+    <string name="start_btn">Start</string>
+    <string name="quit_btn">Выход</string>
+</resources>
