@@ -23,19 +23,13 @@ public class GameView extends GLSurfaceView {
 		case MotionEvent.ACTION_MOVE :
 			if(event.getHistoricalY(0)!=0)
 				gameOpenGlRenderer.pl.rx -= (event.getY()-event.getHistoricalY(1))/100;
-			//gameOpenGlRenderer.pl.rx += -(gameOpenGlRenderer.screenHeight/2- event.getY())/30;
-			//gameOpenGlRenderer.pl.ry += -(gameOpenGlRenderer.screenWidth/2- event.getX())/30;
 			printSamples(event);
 			break;
 		
 		case MotionEvent.ACTION_UP:
-			//gameOpenGlRenderer.pl.rx=0;
-			//System.out.printf("ACTION_UP at: %f | %f", event.getX(),event.getY());
-			//android.util.Log.d("OGL",String.format("asdasdds X:%d Y:%d", (int)event.getX(), (int)event.getY()) );
 			printSamples(event);
 			break;
 		case MotionEvent.ACTION_DOWN:
-			//gameOpenGlRenderer.pl.rx = event.getX()/10;
 			//vibrator.vibrate(50);
 			
 			break; 
