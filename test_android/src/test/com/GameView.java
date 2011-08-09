@@ -10,30 +10,20 @@ import android.os.Vibrator;
 public class GameView extends GLSurfaceView {
 	private OpenGLRenderer gameOpenGlRenderer=null;
 	public Vibrator vibrator;
+	public Controller controller;
 	
 	public GameView(Activity act){
 		super(act);
 		gameOpenGlRenderer = new OpenGLRenderer();
 		setRenderer(gameOpenGlRenderer);
+		
+		controller = new Controller();
+		gameOpenGlRenderer.setController(controller);
 	}
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event){
-		switch(event.getAction()){
-		case MotionEvent.ACTION_MOVE :
-			if(event.getHistoricalY(0)!=0)
-				gameOpenGlRenderer.pl.rx -= (event.getY()-event.getHistoricalY(1))/100;
-			printSamples(event);
-			break;
-		
-		case MotionEvent.ACTION_UP:
-			printSamples(event);
-			break;
-		case MotionEvent.ACTION_DOWN:
-			//vibrator.vibrate(50);
-			
-			break; 
-		}
+		controller.processTouch(event);
 		return true;
 	}
 	

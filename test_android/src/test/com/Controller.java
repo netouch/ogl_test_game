@@ -27,6 +27,8 @@ public class Controller {
 			break;
 		
 		case MotionEvent.ACTION_UP:
+			movingLeft=false;
+			movingRight=false;
 			//printSamples(event);
 			break;
 		case MotionEvent.ACTION_DOWN:
@@ -43,5 +45,10 @@ public class Controller {
 			
 			break; 
 		}
+	}
+	
+	public void updateCamera(Camera cam){
+		if(movingLeft)cam.moveOn(-0.01f, 0.0f, 0.0f);
+		if(movingRight)cam.moveOn(0.01f, 0.0f, 0.0f);
 	}
 }

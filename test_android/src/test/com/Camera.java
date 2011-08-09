@@ -12,10 +12,11 @@ public class Camera {
 	private float rz=0;
 	
 	void moveCamera(GL10 gl){
-		gl.glTranslatef(x, y, z);
+		//gl.glTranslatef(x, y, z);
 		gl.glRotatef(rx, 1, 0, 0);
 	    gl.glRotatef(ry, 0, 1, 0);
 	    gl.glRotatef(rz, 0, 0, 1);
+	    gl.glTranslatef(x, y, z);
 	}
 	
 	void moveOn(float dx, float dy, float dz){

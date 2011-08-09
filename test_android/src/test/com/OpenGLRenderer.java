@@ -10,9 +10,9 @@ public class OpenGLRenderer implements Renderer {
 	public int screenWidth=0;
 	public int screenHeight=0;
 	
+	public Controller controller;
 	public Camera camera;
 	public Plane pl=null;
-	float rotate=0;
 	
 	VisualDebug debug;
 	
@@ -21,7 +21,10 @@ public class OpenGLRenderer implements Renderer {
 	pl=new Plane(2,2,5,5);
 	debug = new VisualDebug();
 	camera = new Camera();
+	camera.moveTo(0, 0, -4.0f);
 	}
+	
+	public void setController(Controller ctrl){controller = ctrl;}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -56,15 +59,17 @@ public class OpenGLRenderer implements Renderer {
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 		// Replace the current matrix with the identity matrix
 		gl.glLoadIdentity();
-		debug.draw(gl);
 		// Translates 4 units into the screen.
 		//gl.glTranslatef(0, 0, -4); 
 		//camera.moveTo(0.0f , 0.0f , -4.0f);
-		camera.moveOn(0, 0, -0.01f);
-		camera.rotateOn(0, 0.5f, 0);
+		//camera.moveTo(0, 0, -4.0f);
+		//camera.rotateOn(0, 0.5f, 0);
+		//camera.rotateOn(0.05f, 0.0f, 0.0f);
+		controller.updateCamera(camera);
 		camera.moveCamera(gl);
 		
 		// Draw our square.
+		debug.draw(gl);
 		pl.draw(gl);
 		
 		//rotate += 0.5f;
