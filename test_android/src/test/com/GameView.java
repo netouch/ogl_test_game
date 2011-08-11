@@ -1,9 +1,9 @@
 package test.com;
 
 import android.app.Activity;
-import android.content.Context;
+//import android.content.Context;
 import android.opengl.GLSurfaceView;
-import android.util.Log;
+//import android.util.Log;
 import android.view.MotionEvent;
 import android.os.Vibrator;
 
@@ -30,6 +30,7 @@ public class GameView extends GLSurfaceView {
 		return true;
 	}
 	
+	/*
 	private void printSamples(MotionEvent ev) {
 	     final int historySize = ev.getHistorySize();
 	     final int pointerCount = ev.getPointerCount();
@@ -47,4 +48,5 @@ public class GameView extends GLSurfaceView {
 	             (int)ev.getPointerId(p), (float)ev.getX(p), (float)ev.getY(p)));
 	     }
 	 }
+	 */
 }

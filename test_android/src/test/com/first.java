@@ -23,7 +23,7 @@ public class first extends Activity {
    		view.vibrator=v;
    		//now lets get W H
    		Log.d("TEST_TEST", String.format("Activity onCreate W=%d H=%d", getWindowManager().getDefaultDisplay().getWidth(), getWindowManager().getDefaultDisplay().getHeight()));
-   		//TODO: push devices screen W and H to OGLRenderer
+   		//TODO: push devices screen W and H to OGLRenderer, and other
    		//view.setRenderer(new OpenGLRenderer());
    		setContentView(view);
    		
