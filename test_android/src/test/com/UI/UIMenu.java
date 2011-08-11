@@ -5,14 +5,30 @@ import java.util.List;
 import android.util.Log;
 
 public class UIMenu {
-	IUIMenuListener listener=null;
-	List<UIMenuItem> menuItems;
+	private IUIMenuListener listener=null;
+	private List<UIMenuItem> menuItems;
+	private String currentGroup = "";
 	
 	UIMenu(){};
 	
 	boolean registerUIMenuListener(IUIMenuListener listener){
-		this.listener = listener;
-		return true;
+		if(listener!=null){
+			this.listener = listener;
+			return true;
+		}
+		else return false;
+	};
+	
+	boolean setStartGroup(String startGroup){
+		for(int i=0;i<menuItems.size();i++){
+			if(menuItems.get(i).getGroupName().equals(startGroup)){
+				currentGroup = startGroup;
+				Log.d("TEST", String.format("Set start groupName success: startGroup is ---> %s", currentGroup));
+				return true;
+			}
+		}
+		Log.d("TEST", String.format("Set start groupName failure: no matches found for startGroup %s", startGroup));
+		return false;
 	};
 	
 	void touchAt(int x, int y){

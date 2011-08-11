@@ -1,10 +1,12 @@
 package test.com;
 
+import test.com.UI.IUIMenuListener;
 import test.com.UI.UIActiveArea;
+import android.util.Log;
 import android.view.MotionEvent;
 
 
-public class Controller {
+public class Controller implements IUIMenuListener{
 	boolean cameraFocus = true;
 	boolean objectFocus = false;
 	boolean movingRight = false;
@@ -16,6 +18,10 @@ public class Controller {
 	public Controller(){
 		left = new UIActiveArea(0.0f , 0.0f , 200.0f , 200.0f);
 		right = new UIActiveArea(200.0f , 0.0f , 400.0f , 200.0f);
+	}
+	
+	public void UIMenuListener(String menuItem){
+		Log.d("TEST", String.format("Controller recive event from UIMenu: itemName is ---> %s", menuItem));
 	}
 	
 	public void processTouch(MotionEvent event){

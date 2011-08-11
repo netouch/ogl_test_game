@@ -22,7 +22,7 @@ public class OpenGLRenderer implements Renderer {
 		debug = new VisualDebug();
 		camera = new Camera();
 		camera.moveTo(0, 0, -4.0f);
-		Log.d("TEST_TEST", String.format("OGLRenderer constructor W=%d H=%d", screenWidth, screenHeight));
+		Log.d("TEST", String.format("OGLRenderer constructor W=%d H=%d", screenWidth, screenHeight));
 	}
 	
 	public void setController(Controller ctrl){controller = ctrl;}
@@ -46,7 +46,7 @@ public class OpenGLRenderer implements Renderer {
 		gl.glDepthFunc(GL10.GL_LEQUAL);
 		// Really nice perspective calculations.
 		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);
-		Log.d("TEST_TEST", String.format("onSurfaceCreated W=%d H=%d", screenWidth, screenHeight));
+		Log.d("TEST", String.format("onSurfaceCreated W=%d H=%d", screenWidth, screenHeight));
 	}
 
 	/*
@@ -101,6 +101,6 @@ public class OpenGLRenderer implements Renderer {
 		
 		screenWidth = width;
 		screenHeight = height;
-		Log.d("TEST_TEST", String.format("onSurfaceChanged W=%d H=%d", screenWidth, screenHeight));
+		Log.d("TEST", String.format("onSurfaceChanged W=%d H=%d", screenWidth, screenHeight));
 	}
 }

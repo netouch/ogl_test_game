@@ -11,5 +11,13 @@ public class UIMenuItem {
 		itemName = item;
 	};
 	
+	public String getItemName(){
+		return itemName;
+	};
+	
+	public String getGroupName(){
+		return groupName;
+	}
+	
 	
 }
