@@ -1,11 +1,16 @@
 package test.com;
 
+import java.net.ContentHandler;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.content.Context;
 
 public class Mesh {
 	private FloatBuffer verticesBuffer = null;
@@ -15,6 +20,9 @@ public class Mesh {
 	private float[] rgba = new float[]{1.0f , 1.0f , 1.0f , 1.0f};
 	private FloatBuffer colorBuffer = null;
 	
+	Bitmap bitmap=null;
+	int textures[]=null;
+	
 	public float x = 0.0f;
 	public float y = 0.0f;
 	public float z = 0.0f;
@@ -22,6 +30,17 @@ public class Mesh {
 	public float rx = 0.0f;
 	public float ry = 0.0f;
 	public float rz = 0.0f;
+	
+	public void loadBitmap(Bitmap btmp){
+		//bitmap = BitmapFactory.decodeResource(Context.getResources(), R.drawable.icon);
+		bitmap = btmp;
+	}
+	
+	public void loadTexture(GL10 gl){
+		textures = new int[1];
+		gl.glGenTextures(1, textures, 0);
+		
+	}
 	
 	
 	public void draw(GL10 gl) {
