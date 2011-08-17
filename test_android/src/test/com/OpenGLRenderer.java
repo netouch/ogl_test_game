@@ -3,7 +3,7 @@ package test.com;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import android.content.Context;
+
 import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
 import android.util.Log;
@@ -14,12 +14,12 @@ public class OpenGLRenderer implements Renderer {
 	
 	public Controller controller;
 	public Camera camera;
-	public Plane pl=null;
+	public MeshGroup mRoot = null;
 	
 	VisualDebug debug;
 	
 	public OpenGLRenderer() {
-		pl=new Plane(2,2,5,5);
+		mRoot = new MeshGroup();
 		debug = new VisualDebug();
 		camera = new Camera();
 		camera.moveTo(0, 0, -4.0f);
@@ -62,18 +62,13 @@ public class OpenGLRenderer implements Renderer {
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 		// Replace the current matrix with the identity matrix
 		gl.glLoadIdentity();
-		// Translates 4 units into the screen.
-		//gl.glTranslatef(0, 0, -4); 
-		//camera.moveTo(0.0f , 0.0f , -4.0f);
-		//camera.moveTo(0, 0, -4.0f);
-		//camera.rotateOn(0, 0.5f, 0);
-		//camera.rotateOn(0.05f, 0.0f, 0.0f);
+
 		controller.updateCamera(camera);
 		camera.moveCamera(gl);
 		
-		// Draw our square.
+		// Draw.
 		debug.draw(gl);
-		pl.draw(gl);
+		mRoot.draw(gl);
 		
 		//rotate += 0.5f;
 	}

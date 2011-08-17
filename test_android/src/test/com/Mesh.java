@@ -21,9 +21,9 @@ public class Mesh {
 	private float[] rgba = new float[]{1.0f , 1.0f , 1.0f , 1.0f};
 	private FloatBuffer colorBuffer = null;
 	//members for texture
-	private FloatBuffer mUVTextureBuffer=null;
+	private FloatBuffer mUVTextureBuffer = null;
 	private int mTextureId = -1;
-	private Bitmap mBitmap=null;
+	private Bitmap mBitmap = null;
 	private boolean mShouldLoadTexture = false;
 	
 	public float x = 0.0f;
@@ -48,7 +48,7 @@ public class Mesh {
 		mShouldLoadTexture = true;
 	}
 	
-	public void loadTexture(GL10 gl){
+	private void loadTexture(GL10 gl){
 		int textures[] = new int[1];
 		gl.glGenTextures(1, textures, 0);
 		mTextureId = textures[0];

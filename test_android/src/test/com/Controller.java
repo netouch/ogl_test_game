@@ -57,4 +57,24 @@ public class Controller implements IUIMenuListener{
 		if(movingLeft)cam.moveOn(-0.01f, 0.0f, 0.0f);
 		if(movingRight)cam.moveOn(0.01f, 0.0f, 0.0f);
 	}
+	
+	/*
+	private void printSamples(MotionEvent ev) {
+	     final int historySize = ev.getHistorySize();
+	     final int pointerCount = ev.getPointerCount();
+	     
+	     for (int h = 0; h < historySize; h++) {
+	    	 android.util.Log.d("OGL",String.format("At time %d:  History size:%d", (int)ev.getHistoricalEventTime(h), historySize));
+	         for (int p = 0; p < pointerCount; p++) {
+	        	 android.util.Log.d("OGL",String.format("History  pointer %d: (X%f Y%f)",
+	                 (int)ev.getPointerId(p), (float)ev.getHistoricalX(p, h), (float)ev.getHistoricalY(p, h)));
+	         }
+	     }
+	     android.util.Log.d("OGL",String.format("At time %d:", (int)ev.getEventTime()));
+	     for (int p = 0; p < pointerCount; p++) {
+	    	 android.util.Log.d("OGL",String.format("Current  pointer %d: (X%f Y%f)",
+	             (int)ev.getPointerId(p), (float)ev.getX(p), (float)ev.getY(p)));
+	     }
+	 }
+	 */
 }
