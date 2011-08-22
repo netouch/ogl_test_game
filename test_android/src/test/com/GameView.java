@@ -43,5 +43,17 @@ public class GameView extends GLSurfaceView {
 		Log.d("TEST", String.format("loaded bitmap=%s", bitmap));
 		plane.loadBitmap(bitmap);
 		gameOpenGlRenderer.mRoot.addMesh(plane);
+		
+		//and other one plane
+		plane = new Plane(1.5f , 1.5f);
+		plane.setTextureCoordinates(new float[]{0.0f , 0.0f , 
+												1.0f , 0.0f ,
+												0.0f , 1.0f , 
+												1.0f , 1.0f });
+		bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.face);
+		plane.loadBitmap(bitmap);
+		plane.x += 0.2f;
+		plane.z = - 0.5f;
+		gameOpenGlRenderer.mRoot.addMesh(plane);
 	}
 }

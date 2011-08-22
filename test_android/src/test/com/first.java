@@ -1,5 +1,6 @@
 package test.com;
 
+import test.com.utils.MeshFactory;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -27,5 +28,8 @@ public class first extends Activity {
    		//view.setRenderer(new OpenGLRenderer());
    		setContentView(view); 
    		view.createScene();
+   		
+   		MeshFactory mf = new MeshFactory();
+   		//mf.loadObjFile(getResources().openRawResource(R.));
     }
 }
