@@ -1,5 +1,7 @@
 package test.com;
 
+import java.io.IOException;
+
 import test.com.utils.MeshFactory;
 import android.app.Activity;
 import android.content.Context;
@@ -29,7 +31,7 @@ public class first extends Activity {
    		setContentView(view); 
    		view.createScene();
    		
-   		MeshFactory mf = new MeshFactory();
-   		//mf.loadObjFile(getResources().openRawResource(R.));
+   		MeshFactory mf = new MeshFactory(this);
+   		view.gameOpenGlRenderer.mRoot.addMesh(mf.createMesh("o1.obj"));
     }
 }

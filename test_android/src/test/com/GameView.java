@@ -11,7 +11,7 @@ import android.graphics.Bitmap;
 
 
 public class GameView extends GLSurfaceView {
-	private OpenGLRenderer gameOpenGlRenderer=null;
+	public OpenGLRenderer gameOpenGlRenderer=null;
 	public Vibrator vibrator;
 	public Controller controller;
 	

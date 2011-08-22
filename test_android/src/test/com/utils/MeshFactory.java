@@ -1,35 +1,56 @@
 package test.com.utils;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Vector;
 import java.io.InputStreamReader;
-import android.content.Context;
+import java.io.InputStream;
 
+import android.app.Activity;
 import test.com.Mesh;
 
 
 
 public class MeshFactory {
-	//File file = null;
-	InputStreamReader inputStream = null;
+	Activity act = null;
+	
+	//InputStream inputStream = null;
 	StringBuffer content = null;
-	BufferedReader reader = null;
+	//BufferedReader reader = null;
 	
 	Vector<VerticeUnit> v = new Vector<VerticeUnit>();
 	Vector<UVCoordUnit> vt = new Vector<UVCoordUnit>();
 	Vector<IndexUnit> indexBuffer = new Vector<IndexUnit>();
 	
-	public boolean loadObjFile(InputStreamReader in){
+	public MeshFactory(Activity activity){
+		act = activity;
+	}
+	
+	public Mesh createMesh(String path){
+		loadObjFile(path);
+		
+		Mesh mesh = new Mesh();
+		
+		content = null;
+		return mesh;
+	}
+	
+	public boolean loadObjFile(String path){
 		//file = new File(fileName);
-		inputStream = in;
+		InputStream inputStream = null;
+		BufferedReader reader = null;
+		
+		try {
+			inputStream = act.getAssets().open(path);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
 		content = new StringBuffer();
 		
 		try {
-			reader = new BufferedReader(inputStream);
+			reader = new BufferedReader(new InputStreamReader(inputStream));
 			String line = null;
 			while((line = reader.readLine()) != null){
 				content.append(line);
@@ -49,7 +70,21 @@ public class MeshFactory {
 				return false;
 			}
 		}
+		
 		System.out.println(content.toString());
+		return true;
+	}
+	
+	private boolean parseContent(){
+		if(content == null)return false;
+		
+		String line = null;
+		
+		//TODO: code parser part here
+		for(int i=0;i< content.length();i++){
+			//line = content.get
+		}
+		
 		return true;
 	}
 	
