@@ -32,6 +32,7 @@ public class GameView extends GLSurfaceView {
 	}
 	
 	public void createScene(){
+	
 		Plane plane = new Plane(1,1);
 		plane.setTextureCoordinates(new float[]{0.0f , 0.0f , 
 												1.0f , 0.0f ,
@@ -55,5 +56,6 @@ public class GameView extends GLSurfaceView {
 		plane.x += 0.2f;
 		plane.z = - 0.5f;
 		gameOpenGlRenderer.mRoot.addMesh(plane);
+		
 	}
 }

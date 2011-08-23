@@ -35,7 +35,7 @@ public class Mesh {
 	public float ry = 0.0f;
 	public float rz = 0.0f;
 	
-	protected void setTextureCoordinates(float textureCoordinates[]){
+	public void setTextureCoordinates(float textureCoordinates[]){
 		ByteBuffer byteBuff = ByteBuffer.allocateDirect(textureCoordinates.length*4);
 		byteBuff.order(ByteOrder.nativeOrder());
 		mUVTextureBuffer = byteBuff.asFloatBuffer();
@@ -126,7 +126,7 @@ public class Mesh {
     }
 	
 	
-	protected void setVertices(float[] vertices){
+	public void setVertices(float[] vertices){
 		ByteBuffer vbb = ByteBuffer.allocateDirect(vertices.length*4);
 		vbb.order(ByteOrder.nativeOrder());
 		verticesBuffer = vbb.asFloatBuffer();
@@ -135,7 +135,7 @@ public class Mesh {
 	}
 	
 	
-	protected void setIndices(short[] indices){
+	public void setIndices(short[] indices){
 		ByteBuffer ibb = ByteBuffer.allocateDirect(indices.length*2);
 		ibb.order(ByteOrder.nativeOrder());
 		indicesBuffer = ibb.asShortBuffer();

@@ -15,25 +15,14 @@ import test.com.Mesh;
 public class MeshFactory {
 	Activity act = null;
 	
-	//InputStream inputStream = null;
-	StringBuffer content = null;
-	//BufferedReader reader = null;
+	Vector<String> cont = null;
 	
-	Vector<VerticeUnit> v = new Vector<VerticeUnit>();
-	Vector<UVCoordUnit> vt = new Vector<UVCoordUnit>();
-	Vector<IndexUnit> indexBuffer = new Vector<IndexUnit>();
+	Vector<VerticeUnit> vb = new Vector<VerticeUnit>();
+	Vector<UVCoordUnit> vtb = new Vector<UVCoordUnit>();
+	Vector<IndexUnit> ib = new Vector<IndexUnit>();
 	
 	public MeshFactory(Activity activity){
 		act = activity;
-	}
-	
-	public Mesh createMesh(String path){
-		loadObjFile(path);
-		
-		Mesh mesh = new Mesh();
-		
-		content = null;
-		return mesh;
 	}
 	
 	public boolean loadObjFile(String path){
@@ -47,13 +36,13 @@ public class MeshFactory {
 			e1.printStackTrace();
 		}
 		
-		content = new StringBuffer();
+		cont = new Vector<String>();
 		
 		try {
 			reader = new BufferedReader(new InputStreamReader(inputStream));
 			String line = null;
 			while((line = reader.readLine()) != null){
-				content.append(line);
+				cont.add(line);
 			}
 			
 		} catch (FileNotFoundException e) {
@@ -71,21 +60,138 @@ public class MeshFactory {
 			}
 		}
 		
-		System.out.println(content.toString());
+		//System.out.println(content.toString());
 		return true;
 	}
+/*	
+	private boolean loadObjFile(String path){
+		//file = new File(fileName);
+		FileInputStream fstream = null;
+		BufferedReader reader = null;
+		
+		try {
+			fstream = new FileInputStream(path);
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		DataInputStream in = new DataInputStream(fstream);
 	
-	private boolean parseContent(){
-		if(content == null)return false;
+		//content = new StringBuffer();
+		cont = new Vector<String>();
 		
-		String line = null;
-		
-		//TODO: code parser part here
-		for(int i=0;i< content.length();i++){
-			//line = content.get
+		try {
+			reader = new BufferedReader(new InputStreamReader(in));
+			String line = null;
+			
+			while((line = reader.readLine()) != null){
+				//content.append(line);
+				cont.add(line);
+			}
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		} catch (IOException e){
+			e.printStackTrace();
+			return false;
+		} finally{
+			try{
+				if(reader!=null)reader.close();
+			}catch (IOException e){
+				e.printStackTrace();
+				return false;
+			}
 		}
 		
+		//System.out.println(content.toString());
+		
+		for(int i =0 ;i < cont.size() ; i++)System.out.println(cont.get(i));
 		return true;
+	}
+*/
+
+
+	private void parseCont(){
+		String line = null;
+		for(int i =0 ;i < cont.size() ; i++){
+			line = cont.get(i);
+			if(line.startsWith("vt")){
+				//fill vertice buffer
+				String params[] = new String[3];
+				params = line.split(" ", 3);
+				
+				UVCoordUnit vt = new UVCoordUnit();
+				vt.uv = Float.valueOf(params[1]).floatValue();
+				vt.uw = Float.valueOf(params[2]).floatValue();
+				vtb.add(vt);
+			}
+			
+			if(line.startsWith("v")){
+				//fill vertice buffer
+				String params[] = new String[4];
+				params = line.split(" ", 4);
+				VerticeUnit v=new VerticeUnit();
+				
+				v.x = Float.valueOf(params[1]).floatValue();
+				v.y = Float.valueOf(params[2]).floatValue();
+				v.z = Float.valueOf(params[3]).floatValue();
+				
+				vb.add(v);
+			}
+			
+			if(line.startsWith("f")){
+				//fill vertice buffer
+				String params[] = new String[4];
+				params = line.split(" ", 4);
+				//тут делим индексы на индекс вершины и индекс текстурных координат.
+				for(int t=0;t<3;t++){
+					if(params[t+1].contains("/")){
+						//узнать UV индекс
+						String ivivt[] = new String[2];
+						ivivt = params[t+1].split("/", 2);
+						ib.add(new IndexUnit(Integer.parseInt(ivivt[0]),Integer.parseInt(ivivt[1]) ));
+					}
+					else ib.add(new IndexUnit(Integer.parseInt(params[t+1])));
+				}
+			}
+			
+		}
+		
+		System.out.println(new String().format("num of verticies is %d\nnum of UV is %d\nnum of indices is %d", vb.size(), vtb.size(), ib.size()));
+	}
+
+	private Mesh generateMesh(){
+		Mesh mesh = new Mesh();
+		float[] vertices = new float[ib.size()*3];
+		float[] uvTexCoord = null;
+		short[] index = new short[ib.size()];
+		
+		if(vtb.size()!=0) uvTexCoord = new float[ib.size()*3];
+		
+		for(int i=0; i< ib.size();i++){
+			index[i] = (short)ib.get(i).vi;
+			
+			vertices[i*3+0] = vb.get(ib.get(i).vi-1).x;
+			vertices[i*3+1] = vb.get(ib.get(i).vi-1).y;
+			vertices[i*3+2] = vb.get(ib.get(i).vi-1).z;
+			
+			if(ib.get(i).vti != 0 && uvTexCoord != null){
+				uvTexCoord[i*2+0] = vtb.get(ib.get(i).vti-1).uv;
+				uvTexCoord[i*2+1] = vtb.get(ib.get(i).vti-1).uw;
+			}
+		}
+		
+		mesh.setVertices(vertices);
+		if(uvTexCoord!=null)mesh.setTextureCoordinates(uvTexCoord);
+		mesh.setIndices(index);
+		
+		return mesh;
+	}
+
+	public Mesh createMesh(String file){
+		loadObjFile(file);
+		parseCont();
+		return generateMesh();
 	}
 	
 	public class VerticeUnit{
@@ -100,6 +206,9 @@ public class MeshFactory {
 	}
 	
 	public class IndexUnit{
-		int i;
+		int vi=0;
+		int vti=0;
+		public IndexUnit(int i){vi=i;}
+		public IndexUnit(int i, int vi){vi=i; vti = vi;}
 	}
 }

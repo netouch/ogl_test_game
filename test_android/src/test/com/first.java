@@ -1,7 +1,5 @@
 package test.com;
 
-import java.io.IOException;
-
 import test.com.utils.MeshFactory;
 import android.app.Activity;
 import android.content.Context;
@@ -29,9 +27,12 @@ public class first extends Activity {
    		//TODO: push devices screen W and H to OGLRenderer, and other
    		//view.setRenderer(new OpenGLRenderer());
    		setContentView(view); 
-   		view.createScene();
+   		//view.createScene();
    		
    		MeshFactory mf = new MeshFactory(this);
-   		view.gameOpenGlRenderer.mRoot.addMesh(mf.createMesh("o1.obj"));
+   		Mesh m = mf.createMesh("checker.obj");
+   		m.setColor(0.5f, 0.5f, 0.5f, 0.5f);
+   		m.z = -2.0f;
+   		view.gameOpenGlRenderer.mRoot.addMesh(m);
     }
 }
