@@ -25,9 +25,13 @@ public class first extends Activity {
         //GLSurfaceView view = new GLSurfaceView(this);
    		GameView view = new GameView(this);
         
+   		//Create end setUp Controller
+   		Controller controller = new Controller(getWindowManager().getDefaultDisplay().getWidth(), getWindowManager().getDefaultDisplay().getHeight());
+   		view.setController(controller);
+   		
    		//Set Vibrator
-   		Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-   		view.vibrator=v;
+   		//Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+   		//view.vibrator=v;
    		
    		//now lets get W H
    		Log.d("TEST", String.format("Activity onCreate W=%d H=%d", getWindowManager().getDefaultDisplay().getWidth(), getWindowManager().getDefaultDisplay().getHeight()));
@@ -37,9 +41,9 @@ public class first extends Activity {
    		//view.createScene();
    		
    		MeshFactory mf = new MeshFactory(this);
-   		Mesh m = mf.createMesh("plane.obj");
+   		Mesh m = mf.createMesh("monkey.obj");
    		//m.setColor(0.5f, 0.5f, 0.5f, 0.5f);
-   		m.loadBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.face));
+   		m.loadBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.grid));
    		m.z = -2.0f;
    		view.gameOpenGlRenderer.mRoot.addMesh(m);
     }

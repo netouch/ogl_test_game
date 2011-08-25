@@ -4,24 +4,49 @@ import test.com.UI.IUIMenuListener;
 import test.com.UI.UIActiveArea;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.*;
 
 
-public class Controller implements IUIMenuListener{
+public class Controller implements IUIMenuListener, SensorEventListener{
 	boolean cameraFocus = true;
 	boolean objectFocus = false;
 	boolean movingRight = false;
 	boolean movingLeft = false;
+	boolean movingUp = false;
+	boolean movingDown = false;
 	
-	UIActiveArea left;
-	UIActiveArea right;
+	UIActiveArea left = null;
+	UIActiveArea right = null;
+	UIActiveArea top = null;
+	UIActiveArea bottom = null;
 	
 	public Controller(){
 		left = new UIActiveArea(0.0f , 0.0f , 200.0f , 200.0f);
 		right = new UIActiveArea(200.0f , 0.0f , 400.0f , 200.0f);
 	}
 	
+	public Controller(float width, float height){
+		left = new UIActiveArea(0.0f , 0.0f , width/5 , height);
+		right = new UIActiveArea(width - width/5 , 0.0f , width , height);
+		
+		top = new UIActiveArea(0.0f, 0.0f, width, height/5);
+		bottom = new UIActiveArea(0.0f, height - height/5, width, height);
+	}
+	
+	//listener for UIMenu
 	public void UIMenuListener(String menuItem){
 		Log.d("TEST", String.format("Controller recive event from UIMenu: itemName is ---> %s", menuItem));
+	}
+	
+	//Methods for SensorEventListener
+	
+	public void onSensorChanged(SensorEvent e){
+		
+	}
+	
+	public void onAccuracyChanged(Sensor s, int i){
+		
 	}
 	
 	public void processTouch(MotionEvent event){
@@ -35,19 +60,19 @@ public class Controller implements IUIMenuListener{
 		case MotionEvent.ACTION_UP:
 			movingLeft=false;
 			movingRight=false;
+			movingUp = false;
+			movingDown = false;
 			//printSamples(event);
 			break;
 		case MotionEvent.ACTION_DOWN:
 			//vibrator.vibrate(50);
-			if(left.checkIntersect(event.getX(), event.getY())){
-				movingLeft=true;
-				movingRight=false;
-			}
+			if(left.checkIntersect(event.getX(), event.getY())){movingLeft=true;}
 			
-			if(right.checkIntersect(event.getX(), event.getY())){
-				movingLeft=false;
-				movingRight=true;
-			}
+			if(right.checkIntersect(event.getX(), event.getY())){movingRight=true;}
+			
+			if(top.checkIntersect(event.getX(), event.getY())){movingUp = true;}
+			
+			if(bottom.checkIntersect(event.getX(), event.getY())){movingDown = true;}
 			
 			break; 
 		}
@@ -56,6 +81,9 @@ public class Controller implements IUIMenuListener{
 	public void updateCamera(Camera cam){
 		if(movingLeft)cam.moveOn(-0.01f, 0.0f, 0.0f);
 		if(movingRight)cam.moveOn(0.01f, 0.0f, 0.0f);
+		if(movingUp)cam.moveOn(0.0f, 0.01f, 0.0f);
+		if(movingDown)cam.moveOn(0.0f, -0.01f, 0.0f);
+		
 	}
 	
 	/*

@@ -12,27 +12,27 @@ import android.graphics.Bitmap;
 
 public class GameView extends GLSurfaceView {
 	public OpenGLRenderer gameOpenGlRenderer=null;
-	public Vibrator vibrator;
-	public Controller controller;
+	public Controller controller = null;
 	
 	public GameView(Activity act){
 		super(act);
 		gameOpenGlRenderer = new OpenGLRenderer();
 		setRenderer(gameOpenGlRenderer);
-		
-		controller = new Controller();
-		gameOpenGlRenderer.setController(controller);
 		//Log.d("TEST", String.format("W=%d H=%d", this.getWidth(), this.getHeight()));		
+	}
+	
+	public void setController(Controller ctrl){
+		controller = ctrl;
+		gameOpenGlRenderer.setController(controller);
 	}
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event){
-		controller.processTouch(event);
+		if(controller!=null)controller.processTouch(event);
 		return true;
 	}
 	
 	public void createScene(){
-	
 		Plane plane = new Plane(1,1);
 		plane.setTextureCoordinates(new float[]{0.0f , 0.0f , 
 												1.0f , 0.0f ,
@@ -55,7 +55,6 @@ public class GameView extends GLSurfaceView {
 		plane.loadBitmap(bitmap);
 		plane.x += 0.2f;
 		plane.z = - 0.5f;
-		gameOpenGlRenderer.mRoot.addMesh(plane);
-		
+		gameOpenGlRenderer.mRoot.addMesh(plane);		
 	}
 }

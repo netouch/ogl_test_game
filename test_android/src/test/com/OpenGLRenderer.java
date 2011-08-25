@@ -12,7 +12,7 @@ public class OpenGLRenderer implements Renderer {
 	public int screenWidth=0;
 	public int screenHeight=0;
 	
-	public Controller controller;
+	public Controller controller = null;
 	public Camera camera;
 	public MeshGroup mRoot = null;
 	
@@ -63,14 +63,12 @@ public class OpenGLRenderer implements Renderer {
 		// Replace the current matrix with the identity matrix
 		gl.glLoadIdentity();
 
-		controller.updateCamera(camera);
+		if(controller!=null)controller.updateCamera(camera);
 		camera.moveCamera(gl);
 		
 		// Draw.
 		debug.draw(gl);
 		mRoot.draw(gl);
-		
-		//rotate += 0.5f;
 	}
 
 	/*
