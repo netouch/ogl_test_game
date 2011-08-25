@@ -6,11 +6,12 @@ import java.io.IOException;
 import java.util.Vector;
 import java.io.InputStreamReader;
 import java.io.InputStream;
+import android.util.Log;
 
 import android.app.Activity;
 import test.com.Mesh;
 
-
+//TODO: добавить загрузку текстур.
 
 public class MeshFactory {
 	Activity act = null;
@@ -115,28 +116,31 @@ public class MeshFactory {
 		String line = null;
 		for(int i =0 ;i < cont.size() ; i++){
 			line = cont.get(i);
-			if(line.startsWith("vt")){
-				//fill vertice buffer
-				String params[] = new String[3];
-				params = line.split(" ", 3);
-				
-				UVCoordUnit vt = new UVCoordUnit();
-				vt.uv = Float.valueOf(params[1]).floatValue();
-				vt.uw = Float.valueOf(params[2]).floatValue();
-				vtb.add(vt);
-			}
 			
 			if(line.startsWith("v")){
-				//fill vertice buffer
-				String params[] = new String[4];
-				params = line.split(" ", 4);
-				VerticeUnit v=new VerticeUnit();
 				
-				v.x = Float.valueOf(params[1]).floatValue();
-				v.y = Float.valueOf(params[2]).floatValue();
-				v.z = Float.valueOf(params[3]).floatValue();
+				if(line.startsWith("vt")){
+					//fill vertice buffer
+					String params[] = new String[3];
+					params = line.split(" ", 3);
+					
+					UVCoordUnit vt = new UVCoordUnit();
+					vt.uv = Float.valueOf(params[1]).floatValue();
+					vt.uw = Float.valueOf(params[2]).floatValue();
+					vtb.add(vt);
+				}else {
 				
-				vb.add(v);
+					//fill vertice buffer
+					String params[] = new String[4];
+					params = line.split(" ", 4);
+					VerticeUnit v=new VerticeUnit();
+					
+					v.x = Float.valueOf(params[1]).floatValue();
+					v.y = Float.valueOf(params[2]).floatValue();
+					v.z = Float.valueOf(params[3]).floatValue();
+					
+					vb.add(v);
+				}
 			}
 			
 			if(line.startsWith("f")){
@@ -149,15 +153,16 @@ public class MeshFactory {
 						//узнать UV индекс
 						String ivivt[] = new String[2];
 						ivivt = params[t+1].split("/", 2);
-						ib.add(new IndexUnit(Integer.parseInt(ivivt[0]),Integer.parseInt(ivivt[1]) ));
+						ib.add(new IndexUnit(Short.parseShort(ivivt[0]),Integer.parseInt(ivivt[1]) ));
 					}
-					else ib.add(new IndexUnit(Integer.parseInt(params[t+1])));
+					else ib.add(new IndexUnit(Short.parseShort(params[t+1])));
 				}
 			}
 			
 		}
 		
-		System.out.println(new String().format("num of verticies is %d\nnum of UV is %d\nnum of indices is %d", vb.size(), vtb.size(), ib.size()));
+		Log.d("TEST", String.format("num of verticies is %d\nnum of UV is %d\nnum of indices is %d", vb.size(), vtb.size(), ib.size()));
+		for(int i=0;i<ib.size();i++)Log.d("TEST", String.format("[%d] vi= %d vti = %d\n", i, ib.get(i).mvi, ib.get(i).mvti));
 	}
 
 	private Mesh generateMesh(){
@@ -166,21 +171,23 @@ public class MeshFactory {
 		float[] uvTexCoord = null;
 		short[] index = new short[ib.size()];
 		
-		if(vtb.size()!=0) uvTexCoord = new float[ib.size()*3];
-		
-		for(int i=0; i< ib.size();i++){
-			index[i] = (short)ib.get(i).vi;
-			
-			vertices[i*3+0] = vb.get(ib.get(i).vi-1).x;
-			vertices[i*3+1] = vb.get(ib.get(i).vi-1).y;
-			vertices[i*3+2] = vb.get(ib.get(i).vi-1).z;
-			
-			if(ib.get(i).vti != 0 && uvTexCoord != null){
-				uvTexCoord[i*2+0] = vtb.get(ib.get(i).vti-1).uv;
-				uvTexCoord[i*2+1] = vtb.get(ib.get(i).vti-1).uw;
-			}
+		if(vtb.size()!=0){
+			uvTexCoord = new float[ib.size()*2];
 		}
 		
+		for(int i=0; i< ib.size();i++){
+			//index[i] = ib.get(i).mvi;
+			index[i] = (short)i;
+			
+			vertices[i*3+0] = vb.get(ib.get(i).mvi-1).x;
+			vertices[i*3+1] = vb.get(ib.get(i).mvi-1).y;
+			vertices[i*3+2] = vb.get(ib.get(i).mvi-1).z;
+			
+			if(uvTexCoord != null){
+				uvTexCoord[i*2+0] = 1 - vtb.get(ib.get(i).mvti-1).uv;
+				uvTexCoord[i*2+1] = vtb.get(ib.get(i).mvti-1).uw;
+			}
+		}
 		mesh.setVertices(vertices);
 		if(uvTexCoord!=null)mesh.setTextureCoordinates(uvTexCoord);
 		mesh.setIndices(index);
@@ -190,6 +197,9 @@ public class MeshFactory {
 
 	public Mesh createMesh(String file){
 		loadObjFile(file);
+		//TODO: убрать вывод контента
+		for(int i=0; i<cont.size();i++)Log.d("TEST", String.format("%s\n", cont.get(i)));
+		
 		parseCont();
 		return generateMesh();
 	}
@@ -206,9 +216,9 @@ public class MeshFactory {
 	}
 	
 	public class IndexUnit{
-		int vi=0;
-		int vti=0;
-		public IndexUnit(int i){vi=i;}
-		public IndexUnit(int i, int vi){vi=i; vti = vi;}
+		short mvi=0;
+		int mvti=0;
+		public IndexUnit(short vi){mvi=vi;}
+		public IndexUnit(short vi, int vti){mvi=vi; mvti = vti;}
 	}
 }
