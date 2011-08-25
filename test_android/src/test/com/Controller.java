@@ -15,6 +15,7 @@ public class Controller implements IUIMenuListener, SensorEventListener{
 	boolean movingLeft = false;
 	boolean movingUp = false;
 	boolean movingDown = false;
+	float[] accelVect = new float[3];
 	
 	UIActiveArea left = null;
 	UIActiveArea right = null;
@@ -22,8 +23,9 @@ public class Controller implements IUIMenuListener, SensorEventListener{
 	UIActiveArea bottom = null;
 	
 	public Controller(){
-		left = new UIActiveArea(0.0f , 0.0f , 200.0f , 200.0f);
-		right = new UIActiveArea(200.0f , 0.0f , 400.0f , 200.0f);
+		//left = new UIActiveArea(0.0f , 0.0f , 200.0f , 200.0f);
+		//right = new UIActiveArea(200.0f , 0.0f , 400.0f , 200.0f);
+		//accelVect = new float({0.0f , 0.0f , 0.0f});
 	}
 	
 	public Controller(float width, float height){
@@ -42,7 +44,7 @@ public class Controller implements IUIMenuListener, SensorEventListener{
 	//Methods for SensorEventListener
 	
 	public void onSensorChanged(SensorEvent e){
-		
+		Log.d("TEST" , String.format("[Sensor] x=%f y=%f z=%f", e.values[0], e.values[1], e.values[2]));
 	}
 	
 	public void onAccuracyChanged(Sensor s, int i){
@@ -83,6 +85,7 @@ public class Controller implements IUIMenuListener, SensorEventListener{
 		if(movingRight)cam.moveOn(0.01f, 0.0f, 0.0f);
 		if(movingUp)cam.moveOn(0.0f, 0.01f, 0.0f);
 		if(movingDown)cam.moveOn(0.0f, -0.01f, 0.0f);
+		
 		
 	}
 	

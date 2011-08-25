@@ -4,14 +4,20 @@ import test.com.utils.MeshFactory;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 import android.os.Vibrator;
 import android.util.Log;
+import android.hardware.*;
+
+import java.util.List;
 
 public class first extends Activity {
-    /** Called when the activity is first created. */
+    GameView view = null;
+	
+	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
@@ -23,20 +29,13 @@ public class first extends Activity {
             WindowManager.LayoutParams.FLAG_FULLSCREEN);
  		
         //GLSurfaceView view = new GLSurfaceView(this);
-   		GameView view = new GameView(this);
+   		view = new GameView(this);
         
-   		//Create end setUp Controller
-   		Controller controller = new Controller(getWindowManager().getDefaultDisplay().getWidth(), getWindowManager().getDefaultDisplay().getHeight());
-   		view.setController(controller);
+   		setInputs();
    		
    		//Set Vibrator
    		//Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
    		//view.vibrator=v;
-   		
-   		//now lets get W H
-   		Log.d("TEST", String.format("Activity onCreate W=%d H=%d", getWindowManager().getDefaultDisplay().getWidth(), getWindowManager().getDefaultDisplay().getHeight()));
-   		//TODO: push devices screen W and H to OGLRenderer, and other
-   		//view.setRenderer(new OpenGLRenderer());
    		setContentView(view); 
    		//view.createScene();
    		
@@ -47,4 +46,28 @@ public class first extends Activity {
    		m.z = -2.0f;
    		view.gameOpenGlRenderer.mRoot.addMesh(m);
     }
+    
+    public void setInputs(){
+    	//Create end setUp Controller
+   		Controller controller = new Controller(getWindowManager().getDefaultDisplay().getWidth(), getWindowManager().getDefaultDisplay().getHeight());
+   		view.setController(controller);
+   		
+   		//Setting up sensor input
+   		SensorManager sm = (SensorManager)getSystemService(SENSOR_SERVICE);
+   		//List<Sensor> slist = sm.getSensorList(Sensor.TYPE_ALL);
+   		Sensor mAccelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+   		//for(int i=0;i<slist.size();i++)
+   			//Log.d("TEST", String.format("Sensor[%d] is %s\n", i,slist.get(i).getName()));
+   		sm.registerListener(controller, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+   		
+    }
 }
+
+
+
+
+
+
+
+
+

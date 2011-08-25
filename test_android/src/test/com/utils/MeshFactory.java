@@ -197,9 +197,6 @@ public class MeshFactory {
 
 	public Mesh createMesh(String file){
 		loadObjFile(file);
-		//TODO: убрать вывод контента
-		for(int i=0; i<cont.size();i++)Log.d("TEST", String.format("%s\n", cont.get(i)));
-		
 		parseCont();
 		return generateMesh();
 	}
