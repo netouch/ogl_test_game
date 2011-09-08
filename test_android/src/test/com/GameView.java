@@ -19,10 +19,7 @@ public class GameView extends GLSurfaceView {
 		setRenderer(gameOpenGlRenderer);
 		
 		controller = new Controller();
-		gameOpenGlRenderer.setController(controller);
-		//Log.d("TEST", String.format("W=%d H=%d", this.getWidth(), this.getHeight()));
-		
-		
+		gameOpenGlRenderer.setController(controller);		
 	}
 	
 	@Override
