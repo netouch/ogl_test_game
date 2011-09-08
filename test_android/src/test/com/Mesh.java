@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 //import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
 //import android.content.Context;
+import android.util.Log;
 
 public class Mesh {
 	private FloatBuffer verticesBuffer = null;
@@ -21,9 +22,9 @@ public class Mesh {
 	private float[] rgba = new float[]{1.0f , 1.0f , 1.0f , 1.0f};
 	private FloatBuffer colorBuffer = null;
 	//members for texture
-	private FloatBuffer mUVTextureBuffer=null;
+	private FloatBuffer mUVTextureBuffer = null;
 	private int mTextureId = -1;
-	private Bitmap mBitmap=null;
+	private Bitmap mBitmap = null;
 	private boolean mShouldLoadTexture = false;
 	
 	public float x = 0.0f;
@@ -34,7 +35,7 @@ public class Mesh {
 	public float ry = 0.0f;
 	public float rz = 0.0f;
 	
-	protected void setTextureCoordinates(float textureCoordinates[]){
+	public void setTextureCoordinates(float textureCoordinates[]){
 		ByteBuffer byteBuff = ByteBuffer.allocateDirect(textureCoordinates.length*4);
 		byteBuff.order(ByteOrder.nativeOrder());
 		mUVTextureBuffer = byteBuff.asFloatBuffer();
@@ -48,10 +49,12 @@ public class Mesh {
 		mShouldLoadTexture = true;
 	}
 	
-	public void loadTexture(GL10 gl){
+	private void loadTexture(GL10 gl){
 		int textures[] = new int[1];
+		Log.d("TEST", String.format("not generated texture = %d", mTextureId));
 		gl.glGenTextures(1, textures, 0);
 		mTextureId = textures[0];
+		Log.d("TEST", String.format("generated texture = %d", mTextureId));
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, mTextureId);
 		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
 		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
@@ -123,7 +126,7 @@ public class Mesh {
     }
 	
 	
-	protected void setVertices(float[] vertices){
+	public void setVertices(float[] vertices){
 		ByteBuffer vbb = ByteBuffer.allocateDirect(vertices.length*4);
 		vbb.order(ByteOrder.nativeOrder());
 		verticesBuffer = vbb.asFloatBuffer();
@@ -132,7 +135,7 @@ public class Mesh {
 	}
 	
 	
-	protected void setIndices(short[] indices){
+	public void setIndices(short[] indices){
 		ByteBuffer ibb = ByteBuffer.allocateDirect(indices.length*2);
 		ibb.order(ByteOrder.nativeOrder());
 		indicesBuffer = ibb.asShortBuffer();
