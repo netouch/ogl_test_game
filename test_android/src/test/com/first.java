@@ -28,7 +28,6 @@ public class first extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN);
  		
-        //GLSurfaceView view = new GLSurfaceView(this);
    		view = new GameView(this);
         
    		setInputs();
@@ -41,7 +40,6 @@ public class first extends Activity {
    		
    		MeshFactory mf = new MeshFactory(this);
    		Mesh m = mf.createMesh("monkey.obj");
-   		//m.setColor(0.5f, 0.5f, 0.5f, 0.5f);
    		m.loadBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.grid));
    		m.z = -2.0f;
    		view.gameOpenGlRenderer.mRoot.addMesh(m);
@@ -62,9 +60,6 @@ public class first extends Activity {
    		
     }
 }
-
-
-
 
 
 
