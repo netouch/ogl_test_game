@@ -15,7 +15,10 @@ import android.hardware.*;
 import java.util.List;
 
 public class first extends Activity {
-    GameView view = null;
+    GameView view;
+    Controller controller;
+    SensorManager sm;
+    Sensor mAccelerometer;
 	
 	/** Called when the activity is first created. */
     @Override
@@ -45,18 +48,31 @@ public class first extends Activity {
    		view.gameOpenGlRenderer.mRoot.addMesh(m);
     }
     
+    @Override
+    public void onPause(){
+    	super.onPause();
+    	sm.unregisterListener(controller, mAccelerometer);
+    }
+    
+    @Override
+    public void onResume(){
+    	super.onResume();
+    	sm.registerListener(controller, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
+    }
+    
     public void setInputs(){
+    	//TODO: перенести инициализацию сенсоров в controller
     	//Create end setUp Controller
-   		Controller controller = new Controller(getWindowManager().getDefaultDisplay().getWidth(), getWindowManager().getDefaultDisplay().getHeight());
+   		controller = new Controller(getWindowManager().getDefaultDisplay().getWidth(), getWindowManager().getDefaultDisplay().getHeight());
    		view.setController(controller);
    		
    		//Setting up sensor input
-   		SensorManager sm = (SensorManager)getSystemService(SENSOR_SERVICE);
+   		sm = (SensorManager)getSystemService(SENSOR_SERVICE);
    		//List<Sensor> slist = sm.getSensorList(Sensor.TYPE_ALL);
-   		Sensor mAccelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+   		mAccelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
    		//for(int i=0;i<slist.size();i++)
    			//Log.d("TEST", String.format("Sensor[%d] is %s\n", i,slist.get(i).getName()));
-   		sm.registerListener(controller, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+   		sm.registerListener(controller, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
    		
     }
 }

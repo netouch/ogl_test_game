@@ -4,7 +4,6 @@ import test.com.UI.IUIMenuListener;
 import test.com.UI.UIActiveArea;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.*;
 
 
@@ -21,6 +20,8 @@ public class Controller implements IUIMenuListener, SensorEventListener{
 	UIActiveArea right = null;
 	UIActiveArea top = null;
 	UIActiveArea bottom = null;
+	
+	Camera cam;
 	
 	public Controller(){
 		//left = new UIActiveArea(0.0f , 0.0f , 200.0f , 200.0f);
@@ -45,6 +46,8 @@ public class Controller implements IUIMenuListener, SensorEventListener{
 	
 	public void onSensorChanged(SensorEvent e){
 		Log.d("TEST" , String.format("[Sensor] x=%f y=%f z=%f", e.values[0], e.values[1], e.values[2]));
+		if(e.values[0] > 2.0f || e.values[0] < 2.0f)
+			cam.rotateOn(0,(float)e.values[0]/10 , 0);
 	}
 	
 	public void onAccuracyChanged(Sensor s, int i){
@@ -86,6 +89,11 @@ public class Controller implements IUIMenuListener, SensorEventListener{
 		if(movingUp)cam.moveOn(0.0f, 0.01f, 0.0f);
 		if(movingDown)cam.moveOn(0.0f, -0.01f, 0.0f);
 		
+		
+	}
+
+	public void setCamera(Camera camera) {
+		cam = camera;
 		
 	}
 	

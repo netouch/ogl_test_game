@@ -26,7 +26,10 @@ public class OpenGLRenderer implements Renderer {
 		Log.d("TEST", String.format("OGLRenderer constructor W=%d H=%d", screenWidth, screenHeight));
 	}
 	
-	public void setController(Controller ctrl){controller = ctrl;}
+	public void setController(Controller ctrl){
+		controller = ctrl;
+		controller.setCamera(camera);
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
