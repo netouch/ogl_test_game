@@ -18,6 +18,4 @@ public class UIMenuItem {
 	public String getGroupName(){
 		return groupName;
 	}
-	
-	
 }

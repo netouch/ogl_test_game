@@ -26,8 +26,13 @@ public class MeshFactory {
 		act = activity;
 	}
 	
+	public Mesh createMesh(String file){
+		loadObjFile(file);
+		parseCont();
+		return generateMesh();
+	}
+	
 	public boolean loadObjFile(String path){
-		//file = new File(fileName);
 		InputStream inputStream = null;
 		BufferedReader reader = null;
 		
@@ -37,7 +42,8 @@ public class MeshFactory {
 			e1.printStackTrace();
 		}
 		
-		cont = new Vector<String>();
+		if(cont==null) cont = new Vector<String>();
+		else cont.clear();
 		
 		try {
 			reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -60,65 +66,16 @@ public class MeshFactory {
 				return false;
 			}
 		}
-		
-		//System.out.println(content.toString());
 		return true;
 	}
-/*	
-	private boolean loadObjFile(String path){
-		//file = new File(fileName);
-		FileInputStream fstream = null;
-		BufferedReader reader = null;
-		
-		try {
-			fstream = new FileInputStream(path);
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		}
-		DataInputStream in = new DataInputStream(fstream);
-	
-		//content = new StringBuffer();
-		cont = new Vector<String>();
-		
-		try {
-			reader = new BufferedReader(new InputStreamReader(in));
-			String line = null;
-			
-			while((line = reader.readLine()) != null){
-				//content.append(line);
-				cont.add(line);
-			}
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return false;
-		} catch (IOException e){
-			e.printStackTrace();
-			return false;
-		} finally{
-			try{
-				if(reader!=null)reader.close();
-			}catch (IOException e){
-				e.printStackTrace();
-				return false;
-			}
-		}
-		
-		//System.out.println(content.toString());
-		
-		for(int i =0 ;i < cont.size() ; i++)System.out.println(cont.get(i));
-		return true;
-	}
-*/
-
 
 	private void parseCont(){
 		String line = null;
+		
 		for(int i =0 ;i < cont.size() ; i++){
 			line = cont.get(i);
 			
 			if(line.startsWith("v")){
-				
 				if(line.startsWith("vt")){
 					//fill vertice buffer
 					String params[] = new String[3];
@@ -129,7 +86,6 @@ public class MeshFactory {
 					vt.uw = Float.valueOf(params[2]).floatValue();
 					vtb.add(vt);
 				}else {
-				
 					//fill vertice buffer
 					String params[] = new String[4];
 					params = line.split(" ", 4);
@@ -176,7 +132,6 @@ public class MeshFactory {
 		}
 		
 		for(int i=0; i< ib.size();i++){
-			//index[i] = ib.get(i).mvi;
 			index[i] = (short)i;
 			
 			vertices[i*3+0] = vb.get(ib.get(i).mvi-1).x;
@@ -195,11 +150,6 @@ public class MeshFactory {
 		return mesh;
 	}
 
-	public Mesh createMesh(String file){
-		loadObjFile(file);
-		parseCont();
-		return generateMesh();
-	}
 	
 	public class VerticeUnit{
 		float x;
