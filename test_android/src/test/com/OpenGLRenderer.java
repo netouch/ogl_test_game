@@ -30,13 +30,7 @@ public class OpenGLRenderer implements Renderer {
 		controller = ctrl;
 		controller.setCamera(camera);
 	}
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * android.opengl.GLSurfaceView.Renderer#onSurfaceCreated(javax.microedition
-	 * .khronos.opengles.GL10, javax.microedition.khronos.egl.EGLConfig)
-	 */
+
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 		// Set the background color to black ( rgba ).
 		gl.glClearColor(1.0f, 1.0f, 1.0f, 0.5f);
@@ -53,13 +47,6 @@ public class OpenGLRenderer implements Renderer {
 		Log.d("TEST", String.format("onSurfaceCreated W=%d H=%d", screenWidth, screenHeight));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * android.opengl.GLSurfaceView.Renderer#onDrawFrame(javax.microedition.
-	 * khronos.opengles.GL10)
-	 */
 	public void onDrawFrame(GL10 gl) {
 		// Clears the screen and depth buffer.
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
@@ -74,13 +61,6 @@ public class OpenGLRenderer implements Renderer {
 		mRoot.draw(gl);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * android.opengl.GLSurfaceView.Renderer#onSurfaceChanged(javax.microedition
-	 * .khronos.opengles.GL10, int, int)
-	 */
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
 		// Sets the current view port to the new size.
 		gl.glViewport(0, 0, width, height);
@@ -89,8 +69,7 @@ public class OpenGLRenderer implements Renderer {
 		// Reset the projection matrix
 		gl.glLoadIdentity();
 		// Calculate the aspect ratio of the window
-		GLU.gluPerspective(gl, 45.0f, (float) width / (float) height, 0.1f,
-				100.0f);
+		GLU.gluPerspective(gl, 45.0f, (float) width / (float) height, 0.1f,	100.0f);
 		// Select the modelview matrix
 		gl.glMatrixMode(GL10.GL_MODELVIEW);
 		// Reset the modelview matrix

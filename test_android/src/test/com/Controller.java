@@ -5,7 +5,7 @@ import test.com.UI.UIActiveArea;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.hardware.*;
-
+import android.hardware.SensorManager;
 
 public class Controller implements IUIMenuListener, SensorEventListener{
 	boolean cameraFocus = true;
@@ -21,20 +21,29 @@ public class Controller implements IUIMenuListener, SensorEventListener{
 	UIActiveArea top = null;
 	UIActiveArea bottom = null;
 	
+	SensorManager sm;
+    Sensor mAccelerometer;
+	
 	Camera cam;
 	
 	public Controller(){
-		//left = new UIActiveArea(0.0f , 0.0f , 200.0f , 200.0f);
-		//right = new UIActiveArea(200.0f , 0.0f , 400.0f , 200.0f);
-		//accelVect = new float({0.0f , 0.0f , 0.0f});
 	}
 	
 	public Controller(float width, float height){
 		left = new UIActiveArea(0.0f , 0.0f , width/5 , height);
 		right = new UIActiveArea(width - width/5 , 0.0f , width , height);
-		
 		top = new UIActiveArea(0.0f, 0.0f, width, height/5);
 		bottom = new UIActiveArea(0.0f, height - height/5, width, height);
+	}
+	
+	public void setupSensors(SensorManager s){
+		//Setting up sensor input
+   		sm = s;
+   		//List<Sensor> slist = sm.getSensorList(Sensor.TYPE_ALL);
+   		mAccelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+   		//for(int i=0;i<slist.size();i++)
+   			//Log.d("TEST", String.format("Sensor[%d] is %s\n", i,slist.get(i).getName()));
+   		sm.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
 	}
 	
 	//listener for UIMenu
@@ -42,8 +51,9 @@ public class Controller implements IUIMenuListener, SensorEventListener{
 		Log.d("TEST", String.format("Controller recive event from UIMenu: itemName is ---> %s", menuItem));
 	}
 	
-	//Methods for SensorEventListener
+
 	
+	//Methods for SensorEventListener
 	public void onSensorChanged(SensorEvent e){
 		Log.d("TEST" , String.format("[Sensor] x=%f y=%f z=%f", e.values[0], e.values[1], e.values[2]));
 		if(e.values[0] > 2.0f || e.values[0] < 2.0f)
@@ -88,13 +98,18 @@ public class Controller implements IUIMenuListener, SensorEventListener{
 		if(movingRight)cam.moveOn(0.01f, 0.0f, 0.0f);
 		if(movingUp)cam.moveOn(0.0f, 0.01f, 0.0f);
 		if(movingDown)cam.moveOn(0.0f, -0.01f, 0.0f);
-		
-		
 	}
 
 	public void setCamera(Camera camera) {
 		cam = camera;
-		
+	}
+
+	public void onPause() {
+		sm.unregisterListener(this, mAccelerometer);
+	}
+
+	public void onResume() {
+		sm.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
 	}
 	
 	/*

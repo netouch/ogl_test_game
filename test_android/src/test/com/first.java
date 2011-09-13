@@ -2,23 +2,18 @@ package test.com;
 
 import test.com.utils.MeshFactory;
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
-import android.os.Vibrator;
 import android.util.Log;
-import android.hardware.*;
 
-import java.util.List;
+//import java.util.List;
 
 public class first extends Activity {
     GameView view;
     Controller controller;
-    SensorManager sm;
-    Sensor mAccelerometer;
 	
 	/** Called when the activity is first created. */
     @Override
@@ -34,12 +29,14 @@ public class first extends Activity {
    		view = new GameView(this);
         
    		setInputs();
+   		setContentView(view);
    		
-   		//Set Vibrator
-   		//Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-   		//view.vibrator=v;
-   		setContentView(view); 
-   		//view.createScene();
+   		/*
+   		Set Vibrator
+   		Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+   		view.vibrator=v;
+   		view.createScene();
+   		*/
    		
    		MeshFactory mf = new MeshFactory(this);
    		Mesh m = mf.createMesh("monkey.obj");
@@ -51,29 +48,19 @@ public class first extends Activity {
     @Override
     public void onPause(){
     	super.onPause();
-    	sm.unregisterListener(controller, mAccelerometer);
+    	controller.onPause();
     }
     
     @Override
     public void onResume(){
     	super.onResume();
-    	sm.registerListener(controller, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
+    	controller.onResume();
     }
     
     public void setInputs(){
-    	//TODO: перенести инициализацию сенсоров в controller
-    	//Create end setUp Controller
    		controller = new Controller(getWindowManager().getDefaultDisplay().getWidth(), getWindowManager().getDefaultDisplay().getHeight());
+   		controller.setupSensors((SensorManager)getSystemService(SENSOR_SERVICE));
    		view.setController(controller);
-   		
-   		//Setting up sensor input
-   		sm = (SensorManager)getSystemService(SENSOR_SERVICE);
-   		//List<Sensor> slist = sm.getSensorList(Sensor.TYPE_ALL);
-   		mAccelerometer = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-   		//for(int i=0;i<slist.size();i++)
-   			//Log.d("TEST", String.format("Sensor[%d] is %s\n", i,slist.get(i).getName()));
-   		sm.registerListener(controller, mAccelerometer, SensorManager.SENSOR_DELAY_GAME);
-   		
     }
 }
 
