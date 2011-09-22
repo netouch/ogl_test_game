@@ -30,19 +30,13 @@ public class first extends Activity {
         
    		setInputs();
    		setContentView(view);
-   		
+   		loadScene();
    		/*
    		Set Vibrator
    		Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
    		view.vibrator=v;
    		view.createScene();
    		*/
-   		
-   		MeshFactory mf = new MeshFactory(this);
-   		Mesh m = mf.createMesh("monkey.obj");
-   		m.loadBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.grid));
-   		m.z = -2.0f;
-   		view.gameOpenGlRenderer.mRoot.addMesh(m);
     }
     
     @Override
@@ -61,6 +55,22 @@ public class first extends Activity {
    		controller = new Controller(getWindowManager().getDefaultDisplay().getWidth(), getWindowManager().getDefaultDisplay().getHeight());
    		controller.setupSensors((SensorManager)getSystemService(SENSOR_SERVICE));
    		view.setController(controller);
+    }
+    
+    public void loadScene(){
+   		MeshFactory mf = new MeshFactory(this);
+   		Mesh m = mf.createMesh("monkey.obj");
+   		m.loadBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.grid));
+   		m.z = -2.0f;
+   		view.gameOpenGlRenderer.mRoot.addMesh(m);   
+   		
+   		
+   		Mesh mm = mf.createMesh("board.obj");
+   		mm.loadBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.board));
+   		view.gameOpenGlRenderer.mRoot.addMesh(mm);
+   		
+   		Mesh mmm = mf.createMesh("check.obj");
+   		view.gameOpenGlRenderer.mRoot.addMesh(mmm);
     }
 }
 

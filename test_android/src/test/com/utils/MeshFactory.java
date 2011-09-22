@@ -29,9 +29,18 @@ public class MeshFactory {
 	public Mesh createMesh(String file){
 		loadObjFile(file);
 		parseCont();
-		return generateMesh();
+		Mesh m = generateMesh();
+		clearBuffers();
+		return m;
 	}
 	
+	private void clearBuffers() {
+		cont.clear();
+		vb.clear();
+		vtb.clear();
+		ib.clear();
+	}
+
 	public boolean loadObjFile(String path){
 		InputStream inputStream = null;
 		BufferedReader reader = null;
