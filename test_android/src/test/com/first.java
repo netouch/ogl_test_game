@@ -59,10 +59,10 @@ public class first extends Activity {
     
     public void loadScene(){
    		MeshFactory mf = new MeshFactory(this);
-   		Mesh m = mf.createMesh("monkey.obj");
-   		m.loadBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.grid));
-   		m.z = -2.0f;
-   		view.gameOpenGlRenderer.mRoot.addMesh(m);   
+   		//Mesh m = mf.createMesh("monkey.obj");
+   		//m.loadBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.grid));
+   		//m.z = -2.0f;
+   		//view.gameOpenGlRenderer.mRoot.addMesh(m);   
    		
    		
    		Mesh mm = mf.createMesh("board.obj");

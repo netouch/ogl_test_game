@@ -7,7 +7,12 @@ import android.view.MotionEvent;
 import android.hardware.*;
 import android.hardware.SensorManager;
 
+
+
 public class Controller implements IUIMenuListener, SensorEventListener{
+	private static final int X=0;
+	private static final int Y=1;
+	private static final int Z=2;
 	boolean cameraFocus = true;
 	boolean objectFocus = false;
 	boolean movingRight = false;
@@ -56,8 +61,10 @@ public class Controller implements IUIMenuListener, SensorEventListener{
 	//Methods for SensorEventListener
 	public void onSensorChanged(SensorEvent e){
 		Log.d("TEST" , String.format("[Sensor] x=%f y=%f z=%f", e.values[0], e.values[1], e.values[2]));
-		if(e.values[0] > 2.0f || e.values[0] < 2.0f)
-			cam.rotateOn(0,(float)e.values[0]/10 , 0);
+		if(e.values[X] > 1.0f || e.values[X] < -1.0f)
+			cam.rotateOn(0,(float)e.values[X]/20 , 0);
+		if(e.values[Z] > 1.0f || e.values[Z] < -1.0f)
+			cam.rotateOn((float)e.values[Z]/20 , 0 , 0);
 	}
 	
 	public void onAccuracyChanged(Sensor s, int i){
