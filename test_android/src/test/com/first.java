@@ -69,8 +69,13 @@ public class first extends Activity {
    		mm.loadBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.board));
    		view.gameOpenGlRenderer.mRoot.addMesh(mm);
    		
-   		Mesh mmm = mf.createMesh("check.obj");
-   		view.gameOpenGlRenderer.mRoot.addMesh(mmm);
+   		Mesh mmm;
+   		for(int i=0;i<16;i++){
+   			mmm = mf.createMesh("check.obj");
+   			mmm.x += i/24;
+   			view.gameOpenGlRenderer.mRoot.addMesh(mmm);
+   			mmm=null;
+   		}
     }
 }
 
